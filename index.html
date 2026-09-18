@@ -61,7 +61,6 @@
             font-size: 0.95rem;
         }
 
-        /* Menu Pilihan Mode */
         .mode-selection {
             display: flex;
             flex-direction: column;
@@ -109,7 +108,6 @@
         .badge-exam { background: var(--warning); color: #333; }
         .badge-rank { background: var(--danger); }
 
-        /* Interface Kuis */
         .quiz-screen { display: none; }
 
         .progress-container {
@@ -211,7 +209,6 @@
         .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
         .btn-outline:hover { background: var(--secondary); color: white; }
 
-        /* Result Screen */
         .result-screen { text-align: center; display: none; }
         .score-display { font-size: 3rem; font-weight: bold; color: var(--secondary); margin: 15px 0; }
         
@@ -247,7 +244,6 @@
         <p>Materi ASTS 2026: Perubahan Sosial, Modernisasi, Globalisasi, & Kearifan Lokal</p>
     </header>
 
-    <!-- MENU MODE -->
     <div id="mode-screen">
         <h2 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--primary);">Pilih Mode Kuis:</h2>
         <div class="mode-selection">
@@ -277,7 +273,6 @@
         </div>
     </div>
 
-    <!-- TAMPILAN KUIS -->
     <div id="quiz-screen" class="quiz-screen">
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
@@ -302,7 +297,6 @@
         </div>
     </div>
 
-    <!-- TAMPILAN HASIL -->
     <div id="result-screen" class="result-screen">
         <h2>Hasil Akhir Anda</h2>
         <div class="score-display" id="final-score">0 / 0</div>
@@ -318,7 +312,45 @@
 </div>
 
 <script>
-    // Bank Soal Berdasarkan Kisi-kisi ASTS IPS Kelas IX
+    // Audio Synthesizer (Web Audio API)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.4);
+        } else if (type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(130, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.35);
+        }
+    }
+
+    function triggerVibration() {
+        if ("vibrate" in navigator) {
+            navigator.vibrate([200, 100, 200]);
+        }
+    }
+
     const masterBank = [
         {
             q: "Pengertian perubahan sosial menurut Selo Soemardjan adalah perubahan pada...",
@@ -329,7 +361,7 @@
                 "Tata cara berpakaian mengikuti budaya asing secara langsung"
             ],
             ans: 0,
-            exp: "Selo Soemardjan menyatakan perubahan sosial adalah perubahan pada lembaga kemasyarakatan yang mempengaruhi sistem sosial, termasuk nilai, sikap, dan pola perilaku kelompok[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)."
+            exp: "Selo Soemardjan menyatakan perubahan sosial adalah perubahan pada lembaga kemasyarakatan yang mempengaruhi sistem sosial, termasuk nilai, sikap, dan pola perilaku kelompok[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)."
         },
         {
             q: "Pembangunan jalan tol dan program Keluarga Berencana (KB) oleh pemerintah tergolong...",
@@ -340,7 +372,7 @@
                 "Perubahan Evolusi Lambat"
             ],
             ans: 1,
-            exp: "Planned change adalah perubahan yang disengaja dan direncanakan oleh agen perubahan (Agent of Change) seperti pemerintah[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)."
+            exp: "Planned change adalah perubahan yang disengaja dan direncanakan oleh agen perubahan (Agent of Change) seperti pemerintah[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)."
         },
         {
             q: "Faktor internal penyebab perubahan sosial yang berkaitan dengan teknologi adalah...",
@@ -351,7 +383,7 @@
                 "Penetrasi kebudayaan secara paksa pada masa kolonial"
             ],
             ans: 0,
-            exp: "Penemuan baru (inovasi) IPTEK merupakan faktor internal pendorong perubahan sosial[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)."
+            exp: "Penemuan baru (inovasi) IPTEK merupakan faktor internal pendorong perubahan sosial[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)."
         },
         {
             q: "Apakah perbedaan mendasar antara Modernisasi dan Westernisasi?",
@@ -362,7 +394,7 @@
                 "Modernisasi membawa dampak negatif, westernisasi selalu berdampak positif"
             ],
             ans: 1,
-            exp: "Modernisasi menekankan pola pikir rasional dan efisiensi teknologi tanpa membuang budaya lokal, sedangkan westernisasi sekadar meniru gaya barat mentah-mentah[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)."
+            exp: "Modernisasi menekankan pola pikir rasional dan efisiensi teknologi tanpa membuang budaya lokal, sedangkan westernisasi sekadar meniru gaya barat mentah-mentah[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)."
         },
         {
             q: "Contoh penerapannya modernisasi pertanian di wilayah pedesaan adalah...",
@@ -373,7 +405,7 @@
                 "Meninggalkan sektor pertanian secara total"
             ],
             ans: 1,
-            exp: "Mekanisasi pertanian (traktor) dan teknologi pembayaran digital (QRIS) adalah contoh bentuk modernisasi desa[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)."
+            exp: "Mekanisasi pertanian (traktor) dan teknologi pembayaran digital (QRIS) adalah contoh bentuk modernisasi desa[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)."
         },
         {
             q: "Pandangan hidup yang menganggap kesenangan dan kenikmatan materi sebagai tujuan utama adalah...",
@@ -384,7 +416,7 @@
                 "Konsumerisme"
             ],
             ans: 1,
-            exp: "Hedonisme adalah paham yang menganggap kesenangan/kenikmatan materi sebagai tujuan utama hidup[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)."
+            exp: "Hedonisme adalah paham yang menganggap kesenangan/kenikmatan materi sebagai tujuan utama hidup[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)."
         },
         {
             q: "Tradisi simpanan lumbung padi pada masyarakat Baduy bertujuan untuk...",
@@ -395,7 +427,7 @@
                 "Meninggalkan tradisi bercocok tanam lama"
             ],
             ans: 1,
-            exp: "Lumbung padi Baduy merupakan kearifan lokal untuk menjaga ketahanan pangan dan keseimbangan alam[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)."
+            exp: "Lumbung padi Baduy merupakan kearifan lokal untuk menjaga ketahanan pangan dan keseimbangan alam[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)."
         },
         {
             q: "Sikap tepat dan kritis dalam menyikapi berita hoaks di media sosial adalah...",
@@ -406,7 +438,7 @@
                 "Menghapus seluruh media komunikasi digital"
             ],
             ans: 1,
-            exp: "Menghadapi hoaks memerlukan filter informasi, cek sumber resmi, serta pemikiran kritis[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)."
+            exp: "Menghadapi hoaks memerlukan filter informasi, cek sumber resmi, serta pemikiran kritis[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)."
         },
         {
             q: "Manakah yang merupakan contoh globalisasi di bidang ekonomi?",
@@ -417,7 +449,7 @@
                 "Pertukaran pelajar antarnegara"
             ],
             ans: 1,
-            exp: "Pasar bebas (AFTA), e-commerce lintas negara, serta investasi asing merupakan bentuk globalisasi ekonomi[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)."
+            exp: "Pasar bebas (AFTA), e-commerce lintas negara, serta investasi asing merupakan bentuk globalisasi ekonomi[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)."
         },
         {
             q: "Bagaimanakah sintesis hubungan antara Perubahan Sosial, Modernisasi, dan Kearifan Lokal?",
@@ -428,11 +460,10 @@
                 "Ketiganya berdiri sendiri tanpa ada keterkaitan satu sama lain"
             ],
             ans: 0,
-            exp: "Perubahan sosial adalah prosesnya, Modernisasi adalah arah kemajuannya, dan Kearifan Lokal adalah benteng penyeimbangnya[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)."
+            exp: "Perubahan sosial adalah prosesnya, Modernisasi adalah arah kemajuannya, dan Kearifan Lokal adalah benteng penyeimbangnya[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)."
         }
     ];
 
-    // Penjanaan otomatis untuk mencukupi kuota 100 soal (Variasi Bank Soal)
     function generateFullBank() {
         let bank = [];
         for (let i = 0; i < 100; i++) {
@@ -454,6 +485,10 @@
     let userAnswers = [];
 
     function selectMode(mode) {
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
         document.getElementById("mode-screen").style.display = "none";
         document.getElementById("quiz-screen").style.display = "block";
 
@@ -510,9 +545,12 @@
         if (selected === q.ans) {
             score += 10;
             btns[selected].classList.add("correct");
+            playSound('correct');
         } else {
             btns[selected].classList.add("incorrect");
             btns[q.ans].classList.add("correct");
+            playSound('wrong');
+            triggerVibration();
         }
 
         for (let b of btns) b.disabled = true;
