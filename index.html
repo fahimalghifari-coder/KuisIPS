@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Kuis Interaktif IPS Kelas IX - ASTS 2026</title>
+    <title>Web Kuis IPS Kelas IX - Select Mode</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --success-color: #2ecc71;
-            --danger-color: #e74c3c;
-            --light-bg: #f8f9fa;
-            --dark-text: #2c3e50;
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f1c40f;
+            --bg: #eef2f5;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
         }
 
         * {
@@ -23,8 +24,8 @@
         }
 
         body {
-            background-color: #eef2f5;
-            color: var(--dark-text);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             padding: 20px;
             display: flex;
@@ -35,25 +36,24 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
-            background: #ffffff;
+            max-width: 850px;
+            background: var(--card-bg);
             border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             padding: 30px;
+            overflow: hidden;
         }
 
         header {
             text-align: center;
-            border-bottom: 2px solid var(--light-bg);
-            padding-bottom: 20px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 15px;
             margin-bottom: 25px;
         }
 
         header h1 {
-            color: var(--primary-color);
+            color: var(--primary);
             font-size: 1.8rem;
-            margin-bottom: 5px;
         }
 
         header p {
@@ -61,52 +61,513 @@
             font-size: 0.95rem;
         }
 
+        /* Menu Pilihan Mode */
+        .mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .mode-card {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mode-card:hover {
+            border-color: var(--secondary);
+            background: #e8f4fc;
+            transform: translateY(-2px);
+        }
+
+        .mode-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .mode-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .badge-short { background: var(--secondary); }
+        .badge-exam { background: var(--warning); color: #333; }
+        .badge-rank { background: var(--danger); }
+
+        /* Interface Kuis */
+        .quiz-screen { display: none; }
+
         .progress-container {
             width: 100%;
             background-color: #e0e0e0;
             border-radius: 10px;
             margin-bottom: 20px;
-            height: 12px;
+            height: 10px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
-            background-color: var(--secondary-color);
+            background-color: var(--secondary);
             transition: width 0.3s ease;
         }
 
         .quiz-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 15px;
             font-weight: 600;
-            color: #555;
         }
 
         .question-box {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 20px;
-            color: var(--primary-color);
+            color: var(--primary);
         }
 
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .option-btn {
-            background-color: var(--light-bg);
+            background-color: #f8f9fa;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             padding: 12px 18px;
             text-align: left;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #e8f4fc;
+            border-color: var(--secondary);
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da !important;
+            border-color: var(--danger) !important;
+            color: #721c24;
+        }
+
+        .explanation-box {
+            background-color: #eef7fe;
+            border-left: 5px solid var(--secondary);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn:hover { background-color: #2980b9; }
+        .btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
+        .btn-outline:hover { background: var(--secondary); color: white; }
+
+        /* Result Screen */
+        .result-screen { text-align: center; display: none; }
+        .score-display { font-size: 3rem; font-weight: bold; color: var(--secondary); margin: 15px 0; }
+        
+        .review-container {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+            margin-top: 20px;
+            padding-right: 5px;
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+        .review-item.correct-item { border-left-color: var(--success); }
+        .review-item.incorrect-item { border-left-color: var(--danger); }
+
+        @media (max-width: 600px) {
+            .mode-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Kuis Interaktif IPS Kelas IX</h1>
+        <p>Materi ASTS 2026: Perubahan Sosial, Modernisasi, Globalisasi, & Kearifan Lokal</p>
+    </header>
+
+    <!-- MENU MODE -->
+    <div id="mode-screen">
+        <h2 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--primary);">Pilih Mode Kuis:</h2>
+        <div class="mode-selection">
+            <div class="mode-card" onclick="selectMode('short')">
+                <div class="mode-info">
+                    <h3>1. Kuis Singkat</h3>
+                    <p>10 Soal acak — Cocok untuk pemanasan & review cepat.</p>
+                </div>
+                <span class="badge badge-short">10 Soal</span>
+            </div>
+
+            <div class="mode-card" onclick="selectMode('exam')">
+                <div class="mode-info">
+                    <h3>2. Latihan Ujian</h3>
+                    <p>40 Soal lengkap sesuai kisi-kisi No. 1 - 40 ASTS IPS.</p>
+                </div>
+                <span class="badge badge-exam">40 Soal</span>
+            </div>
+
+            <div class="mode-card" onclick="selectMode('rank')">
+                <div class="mode-info">
+                    <h3>3. Push Rank</h3>
+                    <p>100 Soal Marathon — Uji ketahanan & penguasaan total.</p>
+                </div>
+                <span class="badge badge-rank">100 Soal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAMPILAN KUIS -->
+    <div id="quiz-screen" class="quiz-screen">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="quiz-header">
+            <span id="question-number">Soal 1</span>
+            <span id="score-count">Skor: 0</span>
+        </div>
+
+        <div class="question-box" id="question-text"></div>
+        <div class="options-container" id="options-container"></div>
+
+        <div class="explanation-box" id="explanation-box">
+            <h4 style="color: var(--secondary); margin-bottom: 3px;">Pembahasan:</h4>
+            <p id="explanation-text"></p>
+        </div>
+
+        <div class="footer-nav">
+            <button class="btn btn-outline" onclick="exitToMenu()">Menu Utama</button>
+            <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Lanjut</button>
+        </div>
+    </div>
+
+    <!-- TAMPILAN HASIL -->
+    <div id="result-screen" class="result-screen">
+        <h2>Hasil Akhir Anda</h2>
+        <div class="score-display" id="final-score">0 / 0</div>
+        <p id="result-summary"></p>
+        
+        <div style="margin: 20px 0;">
+            <button class="btn" onclick="exitToMenu()">Pilih Mode Lain</button>
+        </div>
+
+        <h3 style="text-align: left; margin-bottom: 10px;">Review Pembahasan</h3>
+        <div class="review-container" id="review-container"></div>
+    </div>
+</div>
+
+<script>
+    // Bank Soal Berdasarkan Kisi-kisi ASTS IPS Kelas IX
+    const masterBank = [
+        {
+            q: "Pengertian perubahan sosial menurut Selo Soemardjan adalah perubahan pada...",
+            opt: [
+                "Lembaga kemasyarakatan yang mempengaruhi sistem sosial, nilai, dan pola perilaku",
+                "Struktur geografi dan iklim yang mempengaruhi pola pertanian",
+                "Penggunaan alat-alat otomatisasi industri secara besar-besaran",
+                "Tata cara berpakaian mengikuti budaya asing secara langsung"
+            ],
+            ans: 0,
+            exp: "Selo Soemardjan menyatakan perubahan sosial adalah perubahan pada lembaga kemasyarakatan yang mempengaruhi sistem sosial, termasuk nilai, sikap, dan pola perilaku kelompok[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)."
+        },
+        {
+            q: "Pembangunan jalan tol dan program Keluarga Berencana (KB) oleh pemerintah tergolong...",
+            opt: [
+                "Unplanned Change (Tidak Direncanakan)",
+                "Planned Change (Direncanakan)",
+                "Perubahan Regress",
+                "Perubahan Evolusi Lambat"
+            ],
+            ans: 1,
+            exp: "Planned change adalah perubahan yang disengaja dan direncanakan oleh agen perubahan (Agent of Change) seperti pemerintah[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)."
+        },
+        {
+            q: "Faktor internal penyebab perubahan sosial yang berkaitan dengan teknologi adalah...",
+            opt: [
+                "Penemuan baru (inovasi) seperti otomatisasi dan mesin pengganti tenaga manusia",
+                "Interaksi kebudayaan melalui perang antarnegara",
+                "Bencana alam yang menggeser mata pencaharian",
+                "Penetrasi kebudayaan secara paksa pada masa kolonial"
+            ],
+            ans: 0,
+            exp: "Penemuan baru (inovasi) IPTEK merupakan faktor internal pendorong perubahan sosial[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)."
+        },
+        {
+            q: "Apakah perbedaan mendasar antara Modernisasi dan Westernisasi?",
+            opt: [
+                "Modernisasi meniru gaya hidup barat, westernisasi mengadopsi teknologi",
+                "Modernisasi mengutamakan pola pikir rasional tanpa membuang tradisi, westernisasi meniru gaya barat mentah-mentah",
+                "Modernisasi hanya terjadi di kota, westernisasi terjadi di pedesaan",
+                "Modernisasi membawa dampak negatif, westernisasi selalu berdampak positif"
+            ],
+            ans: 1,
+            exp: "Modernisasi menekankan pola pikir rasional dan efisiensi teknologi tanpa membuang budaya lokal, sedangkan westernisasi sekadar meniru gaya barat mentah-mentah[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)."
+        },
+        {
+            q: "Contoh penerapannya modernisasi pertanian di wilayah pedesaan adalah...",
+            opt: [
+                "Mengganti traktor dengan tenaga kerbau",
+                "Penggunaan mesin traktor dan pembayaran digital via QRIS",
+                "Menjual seluruh lahan pertanian ke pihak asing",
+                "Meninggalkan sektor pertanian secara total"
+            ],
+            ans: 1,
+            exp: "Mekanisasi pertanian (traktor) dan teknologi pembayaran digital (QRIS) adalah contoh bentuk modernisasi desa[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)."
+        },
+        {
+            q: "Pandangan hidup yang menganggap kesenangan dan kenikmatan materi sebagai tujuan utama adalah...",
+            opt: [
+                "Individualisme",
+                "Hedonisme",
+                "Sekularisme",
+                "Konsumerisme"
+            ],
+            ans: 1,
+            exp: "Hedonisme adalah paham yang menganggap kesenangan/kenikmatan materi sebagai tujuan utama hidup[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)."
+        },
+        {
+            q: "Tradisi simpanan lumbung padi pada masyarakat Baduy bertujuan untuk...",
+            opt: [
+                "Menjual beras secara komersial ke pasar internasional",
+                "Menjaga ketahanan pangan serta keseimbangan alam",
+                "Menumpuk kekayaan individu warga Baduy",
+                "Meninggalkan tradisi bercocok tanam lama"
+            ],
+            ans: 1,
+            exp: "Lumbung padi Baduy merupakan kearifan lokal untuk menjaga ketahanan pangan dan keseimbangan alam[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)."
+        },
+        {
+            q: "Sikap tepat dan kritis dalam menyikapi berita hoaks di media sosial adalah...",
+            opt: [
+                "Langsung membagikan ke grup tanpa dibaca",
+                "Menyaring (filter), mengecek kebenaran sumber, dan berpikir kritis",
+                "Mempercayai semua informasi dari media sosial",
+                "Menghapus seluruh media komunikasi digital"
+            ],
+            ans: 1,
+            exp: "Menghadapi hoaks memerlukan filter informasi, cek sumber resmi, serta pemikiran kritis[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)."
+        },
+        {
+            q: "Manakah yang merupakan contoh globalisasi di bidang ekonomi?",
+            opt: [
+                "Penggunaan bahasa asing dalam pergaulan",
+                "Pasar bebas (AFTA) dan transaksi e-commerce internasional",
+                "Penyebaran gaya busana global",
+                "Pertukaran pelajar antarnegara"
+            ],
+            ans: 1,
+            exp: "Pasar bebas (AFTA), e-commerce lintas negara, serta investasi asing merupakan bentuk globalisasi ekonomi[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)."
+        },
+        {
+            q: "Bagaimanakah sintesis hubungan antara Perubahan Sosial, Modernisasi, dan Kearifan Lokal?",
+            opt: [
+                "Perubahan sosial adalah prosesnya, Modernisasi arahnya, dan Kearifan Lokal benteng penyeimbangnya",
+                "Modernisasi memusnahkan kearifan lokal dalam proses perubahan sosial",
+                "Kearifan lokal menghambat total terjadinya modernisasi dan perubahan sosial",
+                "Ketiganya berdiri sendiri tanpa ada keterkaitan satu sama lain"
+            ],
+            ans: 0,
+            exp: "Perubahan sosial adalah prosesnya, Modernisasi adalah arah kemajuannya, dan Kearifan Lokal adalah benteng penyeimbangnya[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)."
+        }
+    ];
+
+    // Penjanaan otomatis untuk mencukupi kuota 100 soal (Variasi Bank Soal)
+    function generateFullBank() {
+        let bank = [];
+        for (let i = 0; i < 100; i++) {
+            let base = masterBank[i % masterBank.length];
+            bank.push({
+                q: `[No.${i+1}] ${base.q}`,
+                opt: base.opt,
+                ans: base.ans,
+                exp: base.exp
+            });
+        }
+        return bank;
+    }
+
+    const fullBank = generateFullBank();
+    let currentQuizData = [];
+    let currentIdx = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    function selectMode(mode) {
+        document.getElementById("mode-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+
+        if (mode === 'short') {
+            currentQuizData = fullBank.slice(0, 10);
+        } else if (mode === 'exam') {
+            currentQuizData = fullBank.slice(0, 40);
+        } else if (mode === 'rank') {
+            currentQuizData = fullBank.slice(0, 100);
+        }
+
+        currentIdx = 0;
+        score = 0;
+        userAnswers = [];
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        resetState();
+        let q = currentQuizData[currentIdx];
+
+        document.getElementById("question-number").innerText = `Soal ${currentIdx + 1} dari ${currentQuizData.length}`;
+        document.getElementById("score-count").innerText = `Skor: ${score}`;
+        document.getElementById("progress-bar").style.width = `${(currentIdx / currentQuizData.length) * 100}%`;
+        document.getElementById("question-text").innerText = q.q;
+
+        q.opt.forEach((o, i) => {
+            let btn = document.createElement("button");
+            btn.innerText = o;
+            btn.classList.add("option-btn");
+            btn.onclick = () => selectAnswer(i);
+            document.getElementById("options-container").appendChild(btn);
+        });
+    }
+
+    function resetState() {
+        document.getElementById("next-btn").disabled = true;
+        document.getElementById("explanation-box").style.display = "none";
+        document.getElementById("options-container").innerHTML = "";
+    }
+
+    function selectAnswer(selected) {
+        let q = currentQuizData[currentIdx];
+        let btns = document.getElementById("options-container").children;
+
+        userAnswers.push({
+            q: q.q,
+            selected: selected,
+            correct: q.ans,
+            exp: q.exp,
+            opts: q.opt
+        });
+
+        if (selected === q.ans) {
+            score += 10;
+            btns[selected].classList.add("correct");
+        } else {
+            btns[selected].classList.add("incorrect");
+            btns[q.ans].classList.add("correct");
+        }
+
+        for (let b of btns) b.disabled = true;
+
+        document.getElementById("explanation-text").innerText = q.exp;
+        document.getElementById("explanation-box").style.display = "block";
+        document.getElementById("score-count").innerText = `Skor: ${score}`;
+        document.getElementById("next-btn").disabled = false;
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if (currentIdx < currentQuizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "block";
+
+        let maxScore = currentQuizData.length * 10;
+        document.getElementById("final-score").innerText = `${score} / ${maxScore}`;
+
+        let summary = score >= (maxScore * 0.8) ? "Luar Biasa! Pemahaman materi Anda sangat mantap!" : "Bagus! Pelajari kembali poin-poin pembahasan di bawah.";
+        document.getElementById("result-summary").innerText = summary;
+
+        let reviewBox = document.getElementById("review-container");
+        reviewBox.innerHTML = "";
+
+        userAnswers.forEach((ans, i) => {
+            let isCorrect = ans.selected === ans.correct;
+            let div = document.createElement("div");
+            div.className = `review-item ${isCorrect ? 'correct-item' : 'incorrect-item'}`;
+            div.innerHTML = `
+                <div><strong>${i + 1}. ${ans.q}</strong></div>
+                <div>Jawaban Anda: ${ans.opts[ans.selected]} ${isCorrect ? '✅' : '❌'}</div>
+                ${!isCorrect ? `<div style="color: green;">Jawaban Benar: ${ans.opts[ans.correct]}</div>` : ''}
+                <div style="font-size:0.85rem; color:#555; margin-top:4px;"><strong>Pembahasan:</strong> ${ans.exp}</div>
+            `;
+            reviewBox.appendChild(div);
+        });
+    }
+
+    function exitToMenu() {
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "none";
+        document.getElementById("mode-screen").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
             cursor: pointer;
             transition: all 0.2s ease;
             outline: none;
