@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Kuis IPS Kelas IX - Select Mode</title>
+    <title>Web Kuis IPS Kelas IX - 60 Soal Acak</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -250,7 +250,7 @@
             <div class="mode-card" onclick="selectMode('short')">
                 <div class="mode-info">
                     <h3>1. Kuis Singkat</h3>
-                    <p>10 Soal acak — Cocok untuk pemanasan & review cepat.</p>
+                    <p>10 Soal acak dari total 60 soal — Cocok untuk review cepat.</p>
                 </div>
                 <span class="badge badge-short">10 Soal</span>
             </div>
@@ -258,7 +258,7 @@
             <div class="mode-card" onclick="selectMode('exam')">
                 <div class="mode-info">
                     <h3>2. Latihan Ujian</h3>
-                    <p>40 Soal lengkap sesuai kisi-kisi No. 1 - 40 ASTS IPS.</p>
+                    <p>40 Soal acak — Simulasi lengkap sesuai kisi-kisi ASTS.</p>
                 </div>
                 <span class="badge badge-exam">40 Soal</span>
             </div>
@@ -266,9 +266,9 @@
             <div class="mode-card" onclick="selectMode('rank')">
                 <div class="mode-info">
                     <h3>3. Push Rank</h3>
-                    <p>100 Soal Marathon — Uji ketahanan & penguasaan total.</p>
+                    <p>60 Soal Maraton — Uji seluruh bank soal dengan posisi diacak.</p>
                 </div>
-                <span class="badge badge-rank">100 Soal</span>
+                <span class="badge badge-rank">60 Soal</span>
             </div>
         </div>
     </div>
@@ -312,7 +312,6 @@
 </div>
 
 <script>
-    // Audio Synthesizer (Web Audio API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playSound(type) {
@@ -351,135 +350,82 @@
         }
     }
 
-    const masterBank = [
-        {
-            q: "Pengertian perubahan sosial menurut Selo Soemardjan adalah perubahan pada...",
-            opt: [
-                "Lembaga kemasyarakatan yang mempengaruhi sistem sosial, nilai, dan pola perilaku",
-                "Struktur geografi dan iklim yang mempengaruhi pola pertanian",
-                "Penggunaan alat-alat otomatisasi industri secara besar-besaran",
-                "Tata cara berpakaian mengikuti budaya asing secara langsung"
-            ],
-            ans: 0,
-            exp: "Selo Soemardjan menyatakan perubahan sosial adalah perubahan pada lembaga kemasyarakatan yang mempengaruhi sistem sosial, termasuk nilai, sikap, dan pola perilaku kelompok[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)."
-        },
-        {
-            q: "Pembangunan jalan tol dan program Keluarga Berencana (KB) oleh pemerintah tergolong...",
-            opt: [
-                "Unplanned Change (Tidak Direncanakan)",
-                "Planned Change (Direncanakan)",
-                "Perubahan Regress",
-                "Perubahan Evolusi Lambat"
-            ],
-            ans: 1,
-            exp: "Planned change adalah perubahan yang disengaja dan direncanakan oleh agen perubahan (Agent of Change) seperti pemerintah[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)."
-        },
-        {
-            q: "Faktor internal penyebab perubahan sosial yang berkaitan dengan teknologi adalah...",
-            opt: [
-                "Penemuan baru (inovasi) seperti otomatisasi dan mesin pengganti tenaga manusia",
-                "Interaksi kebudayaan melalui perang antarnegara",
-                "Bencana alam yang menggeser mata pencaharian",
-                "Penetrasi kebudayaan secara paksa pada masa kolonial"
-            ],
-            ans: 0,
-            exp: "Penemuan baru (inovasi) IPTEK merupakan faktor internal pendorong perubahan sosial[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)."
-        },
-        {
-            q: "Apakah perbedaan mendasar antara Modernisasi dan Westernisasi?",
-            opt: [
-                "Modernisasi meniru gaya hidup barat, westernisasi mengadopsi teknologi",
-                "Modernisasi mengutamakan pola pikir rasional tanpa membuang tradisi, westernisasi meniru gaya barat mentah-mentah",
-                "Modernisasi hanya terjadi di kota, westernisasi terjadi di pedesaan",
-                "Modernisasi membawa dampak negatif, westernisasi selalu berdampak positif"
-            ],
-            ans: 1,
-            exp: "Modernisasi menekankan pola pikir rasional dan efisiensi teknologi tanpa membuang budaya lokal, sedangkan westernisasi sekadar meniru gaya barat mentah-mentah[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)."
-        },
-        {
-            q: "Contoh penerapannya modernisasi pertanian di wilayah pedesaan adalah...",
-            opt: [
-                "Mengganti traktor dengan tenaga kerbau",
-                "Penggunaan mesin traktor dan pembayaran digital via QRIS",
-                "Menjual seluruh lahan pertanian ke pihak asing",
-                "Meninggalkan sektor pertanian secara total"
-            ],
-            ans: 1,
-            exp: "Mekanisasi pertanian (traktor) dan teknologi pembayaran digital (QRIS) adalah contoh bentuk modernisasi desa[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)."
-        },
-        {
-            q: "Pandangan hidup yang menganggap kesenangan dan kenikmatan materi sebagai tujuan utama adalah...",
-            opt: [
-                "Individualisme",
-                "Hedonisme",
-                "Sekularisme",
-                "Konsumerisme"
-            ],
-            ans: 1,
-            exp: "Hedonisme adalah paham yang menganggap kesenangan/kenikmatan materi sebagai tujuan utama hidup[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)."
-        },
-        {
-            q: "Tradisi simpanan lumbung padi pada masyarakat Baduy bertujuan untuk...",
-            opt: [
-                "Menjual beras secara komersial ke pasar internasional",
-                "Menjaga ketahanan pangan serta keseimbangan alam",
-                "Menumpuk kekayaan individu warga Baduy",
-                "Meninggalkan tradisi bercocok tanam lama"
-            ],
-            ans: 1,
-            exp: "Lumbung padi Baduy merupakan kearifan lokal untuk menjaga ketahanan pangan dan keseimbangan alam[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)."
-        },
-        {
-            q: "Sikap tepat dan kritis dalam menyikapi berita hoaks di media sosial adalah...",
-            opt: [
-                "Langsung membagikan ke grup tanpa dibaca",
-                "Menyaring (filter), mengecek kebenaran sumber, dan berpikir kritis",
-                "Mempercayai semua informasi dari media sosial",
-                "Menghapus seluruh media komunikasi digital"
-            ],
-            ans: 1,
-            exp: "Menghadapi hoaks memerlukan filter informasi, cek sumber resmi, serta pemikiran kritis[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)."
-        },
-        {
-            q: "Manakah yang merupakan contoh globalisasi di bidang ekonomi?",
-            opt: [
-                "Penggunaan bahasa asing dalam pergaulan",
-                "Pasar bebas (AFTA) dan transaksi e-commerce internasional",
-                "Penyebaran gaya busana global",
-                "Pertukaran pelajar antarnegara"
-            ],
-            ans: 1,
-            exp: "Pasar bebas (AFTA), e-commerce lintas negara, serta investasi asing merupakan bentuk globalisasi ekonomi[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)."
-        },
-        {
-            q: "Bagaimanakah sintesis hubungan antara Perubahan Sosial, Modernisasi, dan Kearifan Lokal?",
-            opt: [
-                "Perubahan sosial adalah prosesnya, Modernisasi arahnya, dan Kearifan Lokal benteng penyeimbangnya",
-                "Modernisasi memusnahkan kearifan lokal dalam proses perubahan sosial",
-                "Kearifan lokal menghambat total terjadinya modernisasi dan perubahan sosial",
-                "Ketiganya berdiri sendiri tanpa ada keterkaitan satu sama lain"
-            ],
-            ans: 0,
-            exp: "Perubahan sosial adalah prosesnya, Modernisasi adalah arah kemajuannya, dan Kearifan Lokal adalah benteng penyeimbangnya[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)."
+    // Array Shuffle Function (Fisher-Yates)
+    function shuffleArray(array) {
+        let cur = array.length, randomIdx;
+        while (cur !== 0) {
+            randomIdx = Math.floor(Math.random() * cur);
+            cur--;
+            [array[cur], array[randomIdx]] = [array[randomIdx], array[cur]];
         }
-    ];
-
-    function generateFullBank() {
-        let bank = [];
-        for (let i = 0; i < 100; i++) {
-            let base = masterBank[i % masterBank.length];
-            bank.push({
-                q: `[No.${i+1}] ${base.q}`,
-                opt: base.opt,
-                ans: base.ans,
-                exp: base.exp
-            });
-        }
-        return bank;
+        return array;
     }
 
-    const fullBank = generateFullBank();
-    let currentQuizData = [];
+    // Database 60 Soal Lengkap Berdasarkan Kisi-kisi ASTS IPS IX
+    const rawBank = [
+        { q: "Pengertian perubahan sosial menurut Selo Soemardjan adalah perubahan pada...", opt: ["Lembaga kemasyarakatan yang mempengaruhi sistem sosial", "Struktur geografi dan iklim wilayah", "Penggunaan mesin industri modern", "Mode pakaian dan tren gaya rambut"], ans: "Lembaga kemasyarakatan yang mempengaruhi sistem sosial", exp: "Selo Soemardjan mendefinisikan perubahan sosial sebagai perubahan pada lembaga kemasyarakatan yang mempengaruhi sistem sosialnya[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)." },
+        { q: "Proses perubahan sosial yang memerlukan waktu sangat lambat dinamakan...", opt: ["Evolusi", "Revolusi", "Planned Change", "Regress"], ans: "Evolusi", exp: "Evolusi adalah perubahan yang terjadi secara lambat dan memerlukan waktu yang lama melalui penyesuaian masyarakat[span_4](start_span)[span_4](end_span)." },
+        { q: "Perubahan yang terjadi secara cepat dan mendadak disebut...", opt: ["Revolusi", "Evolusi", "Progress", "Perubahan Kecil"], ans: "Revolusi", exp: "Revolusi adalah perubahan sosial budaya yang berlangsung dalam waktu relatif singkat dan mendasar[span_5](start_span)[span_5](end_span)." },
+        { q: "Contoh perubahan sosial yang berpengaruh kecil adalah perubahan...", opt: ["Model rambut dan pakaian", "Sistem pemerintahan nasional", "Kurikulum pendidikan nasional", "Infrastruktur jalan tol nasional"], ans: "Model rambut dan pakaian", exp: "Perubahan kecil hanya mempengaruhi sebagian kecil masyarakat tanpa merubah struktur dasar[span_6](start_span)[span_6](end_span)." },
+        { q: "Pembangunan jalan tol dan program KB yang digagas pemerintah termasuk contoh...", opt: ["Planned Change (Perubahan Direncanakan)", "Unplanned Change", "Perubahan Regress", "Perubahan Evolusi"], ans: "Planned Change (Perubahan Direncanakan)", exp: "Planned change diprakarsai oleh agen perubahan (agent of change) seperti pemerintah[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span)." },
+        { q: "Bencana alam banjir yang merusak pemukiman dan mengubah profesi warga tergolong...", opt: ["Unplanned Change (Tidak Direncanakan)", "Planned Change", "Progress", "Perubahan Kecil"], ans: "Unplanned Change (Tidak Direncanakan)", exp: "Unplanned change terjadi di luar jangkauan pengawasan masyarakat seperti bencana alam[span_9](start_span)[span_9](end_span)." },
+        { q: "Perubahan sosial yang membawa kemajuan dan keuntungan bagi masyarakat dinamakan...", opt: ["Progress", "Regress", "Evolusi", "Revolusi"], ans: "Progress", exp: "Progress membawa dampak positif dan kemajuan bagi kehidupan warga[span_10](start_span)[span_10](end_span)." },
+        { q: "Perubahan yang membawa kemunduran atau kerugian bagi masyarakat disebut...", opt: ["Regress", "Progress", "Inovasi", "Akulturasi"], ans: "Regress", exp: "Regress menimbulkan kerugian atau kemunduran tatanan masyarakat[span_11](start_span)[span_11](end_span)." },
+        { q: "Faktor internal pendorong perubahan sosial berupa inovasi teknologi adalah...", opt: ["Penemuan baru (inovasi)", "Bencana alam", "Peperangan antarnegara", "Interaksi dengan budaya asing"], ans: "Penemuan baru (inovasi)", exp: "Penemuan baru IPTEK adalah faktor pendorong internal dari dalam masyarakat[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)." },
+        { q: "Pertambahan dan pengurangan jumlah penduduk di suatu wilayah termasuk faktor penyebab...", opt: ["Internal perubahan sosial", "Eksternal perubahan sosial", "Akulturasi budaya", "Westernisasi"], ans: "Internal perubahan sosial", exp: "Dinamika demografi/penduduk merupakan faktor pendorong internal[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span)." },
+        { q: "Konflik antara kelompok warga desa dengan pihak pengembang termasuk faktor penyebab...", opt: ["Internal perubahan sosial", "Eksternal bencana alam", "Pengaruh budaya asing", "Evolusi budaya"], ans: "Internal perubahan sosial", exp: "Konflik sosial internal mendorong dinamika perubahan tatanan masyarakat[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)." },
+        { q: "Masuknya kebudayaan asing seperti tren K-Pop di Indonesia merupakan faktor penyebab...", opt: ["Eksternal perubahan sosial", "Internal inovasi", "Dinamika penduduk", "Bencana alam"], ans: "Eksternal perubahan sosial", exp: "Pengaruh budaya luar (interaksi kebudayaan) termasuk faktor eksternal[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)." },
+        { q: "Dampak positif perubahan sosial ditunjukkan oleh...", opt: ["Meningkatnya pola pikir maju dan terbuka", "Memudarnya semangat gotong royong", "Munculnya kesenjangan sosial ekonomi", "Meningkatnya angka kriminalitas"], ans: "Meningkatnya pola pikir maju dan terbuka", exp: "Pikir maju dan rasionalitas merupakan dampak positif perubahan sosial[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)." },
+        { q: "Dampak negatif dari perubahan sosial yang berupa jurang pemisah ekonomi dinamakan...", opt: ["Kesenjangan sosial", "Integrasi sosial", "Modernisasi", "Akulturasi"], ans: "Kesenjangan sosial", exp: "Kesenjangan sosial ditandai ketidaksetaraan kemampuan ekonomi antarkelompok[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)." },
+        { q: "Kata Modernisasi berasal dari bahasa Latin 'Modo' dan 'Ermus' yang berarti...", opt: ["Cara dan Masa Kini", "Lama dan Tradisional", "Barat dan Luar", "Maju dan Pintar"], ans: "Cara dan Masa Kini", exp: "Modo artinya cara, dan Ermus artinya masa kini[span_24](start_span)[span_24](end_span)[span_25](start_span)[span_25](end_span)." },
+        { q: "Ciri utama masyarakat yang telah mengalami modernisasi adalah...", opt: ["Memiliki pola pikir rasional dan ilmiah", "Mengabaikan ilmu pengetahuan", "Mempercayai hal-hal takhayul", "Menutup diri dari perubahan"], ans: "Memiliki pola pikir rasional dan ilmiah", exp: "Ciri modernisasi adalah berpikir rasional, logis, dan mengutamakan efisiensi[span_26](start_span)[span_26](end_span)[span_27](start_span)[span_27](end_span)." },
+        { q: "Meniru gaya hidup dan kebudayaan barat secara mentah-mentah dinamakan...", opt: ["Westernisasi", "Modernisasi", "Globalisasi", "Akulturasi"], ans: "Westernisasi", exp: "Westernisasi adalah proses meniru gaya hidup barat tanpa penyaringan nilai[span_28](start_span)[span_28](end_span)." },
+        { q: "Miskonsepsi yang sering terjadi mengenai modernisasi adalah...", opt: ["Menganggap modernisasi sama dengan westernisasi", "Menganggap modernisasi menggunakan teknologi", "Menganggap modernisasi membutuhkan efisiensi", "Menganggap modernisasi memanfaatkan IPTEK"], ans: "Menganggap modernisasi sama dengan westernisasi", exp: "Sering terjadi salah paham bahwa modernisasi dianggap identik dengan westernisasi[span_29](start_span)[span_29](end_span)[span_30](start_span)[span_30](end_span)." },
+        { q: "Modernisasi di bidang ekonomi ditandai dengan penggunaan pembayaran digital seperti...", opt: ["QRIS dan e-wallet", "Barter barang", "Uang komoditas", "Sistem cengkeh"], ans: "QRIS dan e-wallet", exp: "Transaksi QRIS dan dompet digital mempermudah efisiensi transaksi ekonomi modern[span_31](start_span)[span_31](end_span)[span_32](start_span)[span_32](end_span)." },
+        { q: "Contoh modernisasi pertanian di wilayah pedesaan adalah...", opt: ["Mekanisasi traktor membajak sawah", "Penggunaan cangkul tradisional", "Menjual sawah untuk pemukiman", "Penggunaan tenaga kerbau"], ans: "Mekanisasi traktor membajak sawah", exp: "Penggunaan traktor mesin menggantikan kerbau adalah bentuk modernisasi pertanian[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span)." },
+        { q: "Kebiasaan membeli barang-barang di luar batas kebutuhan pokok dinamakan...", opt: ["Konsumerisme", "Hedonisme", "Individualisme", "Nasionalisme"], ans: "Konsumerisme", exp: "Konsumerisme adalah kebiasaan belanja berlebihan dan tidak hemat[span_35](start_span)[span_35](end_span)[span_36](start_span)[span_36](end_span)." },
+        { q: "Penyebab utama timbulnya konsumerisme di era digital adalah...", opt: ["Maraknya iklan di media sosial dan e-commerce", "Kelangkaan barang di pasar tradisional", "Tingginya harga bahan pokok", "Kurangnya akses transaksi internet"], ans: "Maraknya iklan di media sosial dan e-commerce", exp: "Iklan media sosial dan kemudahan toko online mendorong perilaku konsumerisme[span_37](start_span)[span_37](end_span)[span_38](start_span)[span_38](end_span)." },
+        { q: "Sarana hiburan masyarakat modern kini banyak beralih ke platform...", opt: ["Digital dan media sosial", "Permainan egrang", "Permainan kelereng", "Pertunjukan wayang kulit"], ans: "Digital dan media sosial", exp: "Hiburan modern terintegrasi dengan perangkat elektronik dan platform digital[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)." },
+        { q: "Proses keterhubungan dan ketergantungan antabangsa di seluruh dunia disebut...", opt: ["Globalisasi", "Modernisasi", "Westernisasi", "Sekularisasi"], ans: "Globalisasi", exp: "Globalisasi membuat dunia saling terhubung tanpa dibatasi batas wilayah[span_41](start_span)[span_41](end_span)." },
+        { q: "Salah satu contoh bentuk globalisasi di bidang ekonomi adalah kesepakatan pasar bebas...", opt: ["AFTA (ASEAN Free Trade Area)", "UNESCO", "NATO", "UNICEF"], ans: "AFTA (ASEAN Free Trade Area)", exp: "AFTA merupakan bentuk integrasi pasar bebas ekonomi di kawasan ASEAN[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)." },
+        { q: "Paham yang menganggap kesenangan materi sebagai tujuan utama hidup dinamakan...", opt: ["Hedonisme", "Konsumerisme", "Individualisme", "Etnosentrisme"], ans: "Hedonisme", exp: "Hedonisme adalah paham hidup yang mengutamakan kenikmatan materi[span_44](start_span)[span_44](end_span)[span_45](start_span)[span_45](end_span)." },
+        { q: "Nilai, tradisi, dan pengetahuan lokal yang bijaksana diwariskan turun-temurun dinamakan...", opt: ["Kearifan Lokal", "Globalisasi", "Modernisasi", "Westernisasi"], ans: "Kearifan Lokal", exp: "Kearifan lokal memuat pandangan hidup bijaksana khas komunitas tertentu[span_46](start_span)[span_46](end_span)[span_47](start_span)[span_47](end_span)." },
+        { q: "Contoh kearifan lokal masyarakat Baduy dalam menjaga ketahanan pangan adalah...", opt: ["Tradisi simpanan Lumbung Padi", "Pasar bebas e-commerce", "Sistem pertanian hidroponik", "Ekspor beras besar-besaran"], ans: "Tradisi simpanan Lumbung Padi", exp: "Lumbung padi Baduy berfungsi menjaga ketahanan pangan secara bijak[span_48](start_span)[span_48](end_span)[span_49](start_span)[span_49](end_span)." },
+        { q: "Fungsi kearifan lokal dalam kehidupan bermasyarakat adalah...", opt: ["Menjaga keharmonisan alam dan memperkuat integrasi", "Mendorong sikap individualis", "Memisahkan hubungan antarwarga", "Menghapus tradisi leluhur"], ans: "Menjaga keharmonisan alam dan memperkuat integrasi", exp: "Kearifan lokal melestarikan alam dan mempererat tali silaturahmi warga[span_50](start_span)[span_50](end_span)[span_51](start_span)[span_51](end_span)." },
+        { q: "Sikap tepat dalam menyikapi beredarnya berita hoaks di internet adalah...", opt: ["Menyaring informasi dan mengecek sumber resmi", "Langsung membagikan ke seluruh grup kontak", "Percaya penuh pada pesan yang beredar", "Menghapus perangkat elektronik"], ans: "Menyaring informasi dan mengecek sumber resmi", exp: "Saring sebelum sharing dan berpikir kritis adalah langkah tepat menangkal hoaks[span_52](start_span)[span_52](end_span)[span_53](start_span)[span_53](end_span)." },
+        { q: "Sintesis peran Kearifan Lokal terhadap arus Perubahan Sosial dan Modernisasi adalah...", opt: ["Sebagai benteng penyeimbang dan penyaring budaya", "Sebagai penghambat kemajuan IPTEK", "Sebagai pengganti seluruh teknologi modern", "Sebagai pemicu konflik antarbudaya"], ans: "Sebagai benteng penyeimbang dan penyaring budaya", exp: "Kearifan lokal menjadi penyeimbang agar identitas bangsa tidak hilang[span_54](start_span)[span_54](end_span)[span_55](start_span)[span_55](end_span)." },
+        { q: "Akulturasi budaya pada bentuk bangunan sejarah di Indonesia contohnya terdapat pada...", opt: ["Arsitektur atap tumpang Masjid Kudus/Demak", "Bangunan gedung bertingkat modern", "Jembatan tol antarkota", "Perumahan tipe minimalis"], ans: "Arsitektur atap tumpang Masjid Kudus/Demak", exp: "Masjid Kudus/Demak memadukan arsitektur lokal, Hindu-Buddha, dan Islam[span_56](start_span)[span_56](end_span)[span_57](start_span)[span_57](end_span)." },
+        { q: "Sikap mementingkan diri sendiri dan mengabaikan kepedulian sosial dinamakan...", opt: ["Individualisme", "Hedonisme", "Konsumerisme", "Sekularisme"], ans: "Individualisme", exp: "Individualisme mengutamakan kepentingan pribadi di atas kepentingan umum[span_58](start_span)[span_58](end_span)[span_59](start_span)[span_59](end_span)." },
+        { q: "Penggunaan bahasa asing secara berlebihan tanpa diimbangi bahasa nasional berisiko...", opt: ["Mengikis identitas jati diri bangsa", "Meningkatkan pendapatan nasional", "Mempercepat infrastruktur jalan", "Menghilangkan inflasi ekonomi"], ans: "Mengikis identitas jati diri bangsa", exp: "Lupa bahasa nasional/daerah dapat melunturkan identitas kebangsaan[span_60](start_span)[span_60](end_span)[span_61](start_span)[span_61](end_span)." },
+        { q: "Pemaksaan kebudayaan asing kepada masyarakat jajahan pada masa kolonial dinamakan...", opt: ["Penetrasi Violente", "Penetrasi Pasifique", "Akulturasi", "Asimilasi"], ans: "Penetrasi Violente", exp: "Penetrasi violente adalah masuknya budaya asing dengan cara paksa/kekerasan[span_62](start_span)[span_62](end_span)[span_63](start_span)[span_63](end_span)." },
+        { q: "Pemanfaatan media sosial untuk mempromosikan tradisi dan tarian daerah merupakan contoh...", opt: ["Pelestarian budaya berbasis teknologi digital", "Bentuk kemunduran kearifan lokal", "Perilaku konsumerisme budaya", "Penolakan terhadap teknologi"], ans: "Pelestarian budaya berbasis teknologi digital", exp: "Teknologi digital dapat dimanfaatkan untuk mempromosikan budaya lokal[span_64](start_span)[span_64](end_span)[span_65](start_span)[span_65](end_span)." },
+        { q: "Sikap yang harus ditunjukkan terhadap perkembangan IPTEK di era globalisasi adalah...", opt: ["Memanfaatkannya secara bijak untuk hal positif", "Menolak seluruh bentuk teknologi baru", "Menerima teknologi tanpa menyaring dampaknya", "Menggunakan IPTEK untuk merusak lingkungan"], ans: "Memanfaatkannya secara bijak untuk hal positif", exp: "IPTEK harus dimanfaatkan secara selektif dan berdaya guna positif[span_66](start_span)[span_66](end_span)[span_67](start_span)[span_67](end_span)." },
+        { q: "Upaya menghadapi tantangan globalisasi ekonomi dapat dilakukan dengan cara...", opt: ["Mencintai produk dalam negeri dan meningkatkan SDM", "Membeli barang impor secara berlebihan", "Menutup seluruh akses perdagangan luar negeri", "Mematikan industri kreatif lokal"], ans: "Mencintai produk dalam negeri dan meningkatkan SDM", exp: "Penguatan SDM dan daya saing produk lokal menopang ekonomi nasional[span_68](start_span)[span_68](end_span)[span_69](start_span)[span_69](end_span)." },
+        { q: "Landasan utama bangsa Indonesia dalam menyaring pengaruh negatif globalisasi adalah...", opt: ["Pancasila dan UUD 1945", "Budaya populer luar negeri", "Sistem ekonomi liberal", "Tren gaya hidup global"], ans: "Pancasila dan UUD 1945", exp: "Nilai Pancasila menjadi filter utama dari dampak negatif kebudayaan luar[span_70](start_span)[span_70](end_span)[span_71](start_span)[span_71](end_span)." },
+        { q: "Dampak positif globalisasi di bidang komunikasi adalah...", opt: ["Mempermudah interaksi jarak jauh secara real-time", "Meningkatkan biaya tarif komunikasi", "Memutus silaturahmi antarwarga", "Mempertahankan isolasi wilayah"], ans: "Mempermudah interaksi jarak jauh secara real-time", exp: "Globalisasi komunikasi mempercepat alur pertukaran pesan secara langsung[span_72](start_span)[span_72](end_span)[span_73](start_span)[span_73](end_span)." },
+        { q: "Perilaku melestarikan kearifan lokal dalam kehidupan sehari-hari contohnya...", opt: ["Menggunakan bahasa daerah yang sopan dan bergotong royong", "Menganggap tradisi daerah ketinggalan jaman", "Menolak berkomunikasi dengan tetangga", "Mengagumi budaya luar secara berlebihan"], ans: "Menggunakan bahasa daerah yang sopan dan bergotong royong", exp: "Penerapan bahasa santun dan gotong royong melestarikan kearifan lokal[span_74](start_span)[span_74](end_span)[span_75](start_span)[span_75](end_span)." },
+        { q: "Salah satu penyebab ditinggalkannya kearifan lokal oleh generasi muda adalah...", opt: ["Anggapan budaya luar lebih modern dibanding tradisi sendiri", "Tingginya rasa cinta tanah air", "Seringnya diadakan pentas seni daerah", "Kurangnya akses internet di kota"], ans: "Anggapan budaya luar lebih modern dibanding tradisi sendiri", exp: "Miskonsepsi menganggap tradisi sendiri kuno mendorong kepunahan budaya[span_76](start_span)[span_76](end_span)[span_77](start_span)[span_77](end_span)." },
+        { q: "Penyebaran kebudayaan secara damai dan tanpa paksaan dinamakan...", opt: ["Penetrasi Pasifique", "Penetrasi Violente", "Kolonialisme", "Imperialisme"], ans: "Penetrasi Pasifique", exp: "Penetrasi pasifique adalah masuknya kebudayaan secara damai[span_78](start_span)[span_78](end_span)." },
+        { q: "Pertemuan dua kebudayaan yang melebur menghasilkan kebudayaan baru tanpa menghilangkan budaya asli disebut...", opt: ["Akulturasi", "Asimilasi", "Amalgamasi", "Difusi"], ans: "Akulturasi", exp: "Akulturasi memadukan unsur budaya luar tanpa menghilangkan identitas lama[span_79](start_span)[span_79](end_span)[span_80](start_span)[span_80](end_span)." },
+        { q: "Leburnya dua kebudayaan berbeda menjadi satu kebudayaan baru yang benar-benar baru dinamakan...", opt: ["Asimilasi", "Akulturasi", "Evolusi", "Modernisasi"], ans: "Asimilasi", exp: "Asimilasi adalah pembauran dua budaya yang menghasilkan kebudayaan baru[span_81](start_span)[span_81](end_span)." },
+        { q: "Pembangunan prasarana digital dan listrik di pedesaan bertujuan mendorong...", opt: ["Modernisasi dan pemerataan pembangunan", "Kesenjangan sosial desa dan kota", "Gaya hidup konsumtif desa", "Pudarnya kearifan lokal"], ans: "Modernisasi dan pemerataan pembangunan", exp: "Infrastruktur digital mendorong modernisasi produktif di pedesaan[span_82](start_span)[span_82](end_span)[span_83](start_span)[span_83](end_span)." },
+        { q: "Sikap yang mengagungkan budaya sendiri dan merendahkan budaya daerah lain dinamakan...", opt: ["Etnosentrisme", "Chauvinisme", "Relativisme Budaya", "Pluralisme"], ans: "Etnosentrisme", exp: "Etnosentrisme adalah sikap menganggap budayanya paling unggul dibanding budaya lain[span_84](start_span)[span_84](end_span)." },
+        { q: "Fungsi kearifan lokal dalam pengelolaan sumber daya alam adalah...", opt: ["Mencegah eksploitasi alam berlebihan", "Menghabiskan hutan untuk pemukiman", "Menjual hasil tambang secara ilegal", "Mengotori sungai desa"], ans: "Mencegah eksploitasi alam berlebihan", exp: "Kearifan lokal mengajarkan aturan adat memelihara kelestarian alam[span_85](start_span)[span_85](end_span)[span_86](start_span)[span_86](end_span)." },
+        { q: "Pengaruh positif K-Pop di Indonesia jika disikapi secara bijak adalah...", opt: ["Mendorong daya kreatif industri musik lokal", "Menghilangkan lagu-lagu nasional", "Membuat remaja enggan belajar", "Mengabaikan bahasa Indonesia"], ans: "Mendorong daya kreatif industri musik lokal", exp: "Budaya luar dapat menginspirasi inovasi industri kreatif dalam negeri[span_87](start_span)[span_87](end_span)[span_88](start_span)[span_88](end_span)." },
+        { q: "Bentuk perubahan sosial yang dipicu oleh peristiwa Reformasi 1998 di Indonesia tergolong...", opt: ["Revolusi dan perubahan besar", "Evolusi lambat", "Perubahan kecil", "Unplanned change"], ans: "Revolusi dan perubahan besar", exp: "Reformasi 1998 merubah tatanan politik-sosial secara cepat dan mendasar[span_89](start_span)[span_89](end_span)." },
+        { q: "Sikap penolakan terhadap hal-hal baru yang datang dari luar dinamakan sikap...", opt: ["Konservatif / Tertutup", "Open-minded", "Modern", "Rasional"], ans: "Konservatif / Tertutup", exp: "Sikap tertutup/konservatif menghambat proses modernisasi yang positif[span_90](start_span)[span_90](end_span)[span_91](start_span)[span_91](end_span)." },
+        { q: "Proses penyebaran unsur-unsur kebudayaan dari satu individu ke individu lain dinamakan...", opt: ["Difusi Kebudayaan", "Akulturasi", "Asimilasi", "Modernisasi"], ans: "Difusi Kebudayaan", exp: "Difusi adalah penyebaran gagasan atau unsur budaya antarmanusia[span_92](start_span)[span_92](end_span)." },
+        { q: "Dampak buruk munculnya gaya hidup konsumtif di kalangan remaja adalah...", opt: ["Kesulitan menabung dan timbulnya boros", "Meningkatnya prestasi belajar", "Bertambahnya kepedulian sosial", "Meningkatnya pendapatan daerah"], ans: "Kesulitan menabung dan timbulnya boros", exp: "Konsumerisme memicu pola hidup boros dan tidak efisien secara finansial[span_93](start_span)[span_93](end_span)[span_94](start_span)[span_94](end_span)." },
+        { q: "Pentingnya digitalisasi museum di era globalisasi bertujuan untuk...", opt: ["Mempermudah akses edukasi sejarah bagi generasi muda", "Menghapus benda-benda bersejarah asli", "Menjual koleksi museum secara online", "Mengganti sejarah dengan cerita fiksi"], ans: "Mempermudah akses edukasi sejarah bagi generasi muda", exp: "Digitalisasi museum menarik minat edukasi sejarah di media digital[span_95](start_span)[span_95](end_span)[span_96](start_span)[span_96](end_span)." },
+        { q: "Tujuan utama diadakannya festival budaya daerah secara rutin adalah...", opt: ["Melestarikan identitas budaya dan menarik pariwisata", "Menghabiskan anggaran daerah secara boros", "Menunjukkan keunggulan satu suku saja", "Menolak kedatangan wisatawan asing"], ans: "Melestarikan identitas budaya dan menarik pariwisata", exp: "Festival budaya memperkuat kebanggaan identitas lokal serta wisata[span_97](start_span)[span_97](end_span)[span_98](start_span)[span_98](end_span)." },
+        { q: "Keuntungan utama dari penggunaan e-commerce di era globalisasi adalah...", opt: ["Memperluas jangkauan pasar hingga ke luar negeri", "Meningkatkan biaya produksi", "Membatasi pilihan barang pembeli", "Memutus jaringan komunikasi grosir"], ans: "Memperluas jangkauan pasar hingga ke luar negeri", exp: "E-commerce memudahkan perdagangan tanpa halangan jarak geografis[span_99](start_span)[span_99](end_span)[span_100](start_span)[span_100](end_span)." },
+        { q: "Perubahan sistem kerja manusia digantikan oleh Artificial Intelligence (AI) tergolong...", opt: ["Perubahan besar akibat perkembangan IPTEK", "Perubahan kecil tanpa dampak", "Perubahan regress budaya", "Evolusi lambat ribuan tahun"], ans: "Perubahan besar akibat perkembangan IPTEK", exp: "Penggunaan AI merubah struktur tenaga kerja secara signifikan[span_101](start_span)[span_101](end_span)." },
+        { q: "Salah satu dampak negatif globalisasi di bidang budaya adalah...", opt: ["Pudarnya nilai gotong royong dan kebersamaan", "Meningkatnya ilmu pengetahuan", "Mempermudah akses informasi", "Terbuka akses lapangan kerja"], ans: "Pudarnya nilai gotong royong dan kebersamaan", exp: "Individualisme memicu pudarnya nilai kebersamaan dan gotong royong[span_102](start_span)[span_102](end_span)[span_103](start_span)[span_103](end_span)." },
+        { q: "Langkah terbaik sekolah dalam membentengi siswa dari dampak negatif globalisasi adalah...", opt: ["Menanamkan pendidikan karakter dan nilai Pancasila", "Melarang penggunaan internet secara mutlak", "Menghapus pelajaran seni budaya", "Mewajibkan penggunaan bahasa asing sepenuhnya"], ans: "Menanamkan pendidikan karakter dan nilai Pancasila", exp: "Pendidikan karakter dan Pancasila menguatkan moral siswa[span_104](start_span)[span_104](end_span)[span_105](start_span)[span_105](end_span)." },
+        { q: "Ciri orang yang memiliki sikap 'open-minded' terhadap modernisasi adalah...", opt: ["Menyaring dan menerima hal baru yang bermanfaat secara kritis", "Menerima semua pengaruh luar tanpa berpikir", "Menolak seluruh perbaikan teknologi", "Mengagumi budaya luar dan membenci budaya sendiri"], ans: "Menyaring dan menerima hal baru yang bermanfaat secara kritis", exp: "Open-minded ditandai sikap terbuka namun tetap kritis menyaring nilai[span_106](start_span)[span_106](end_span)[span_107](start_span)[span_107](end_span)." }
+    ];
+
+    let activeBank = [];
     let currentIdx = 0;
     let score = 0;
     let userAnswers = [];
@@ -489,16 +435,30 @@
             audioCtx.resume();
         }
 
-        document.getElementById("mode-screen").style.display = "none";
-        document.getElementById("quiz-screen").style.display = "block";
+        // Acak seluruh bank soal master
+        let shuffledMaster = shuffleArray([...rawBank]);
 
         if (mode === 'short') {
-            currentQuizData = fullBank.slice(0, 10);
+            activeBank = shuffledMaster.slice(0, 10);
         } else if (mode === 'exam') {
-            currentQuizData = fullBank.slice(0, 40);
+            activeBank = shuffledMaster.slice(0, 40);
         } else if (mode === 'rank') {
-            currentQuizData = fullBank.slice(0, 100);
+            activeBank = shuffledMaster.slice(0, 60);
         }
+
+        // Acak pilihan jawaban untuk tiap soal yang terpilih
+        activeBank = activeBank.map(item => {
+            let shuffledOpts = shuffleArray([...item.opt]);
+            return {
+                q: item.q,
+                opt: shuffledOpts,
+                ans: item.ans,
+                exp: item.exp
+            };
+        });
+
+        document.getElementById("mode-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
 
         currentIdx = 0;
         score = 0;
@@ -508,18 +468,18 @@
 
     function loadQuestion() {
         resetState();
-        let q = currentQuizData[currentIdx];
+        let q = activeBank[currentIdx];
 
-        document.getElementById("question-number").innerText = `Soal ${currentIdx + 1} dari ${currentQuizData.length}`;
+        document.getElementById("question-number").innerText = `Soal ${currentIdx + 1} dari ${activeBank.length}`;
         document.getElementById("score-count").innerText = `Skor: ${score}`;
-        document.getElementById("progress-bar").style.width = `${(currentIdx / currentQuizData.length) * 100}%`;
+        document.getElementById("progress-bar").style.width = `${(currentIdx / activeBank.length) * 100}%`;
         document.getElementById("question-text").innerText = q.q;
 
-        q.opt.forEach((o, i) => {
+        q.opt.forEach((o) => {
             let btn = document.createElement("button");
             btn.innerText = o;
             btn.classList.add("option-btn");
-            btn.onclick = () => selectAnswer(i);
+            btn.onclick = () => selectAnswer(o, btn);
             document.getElementById("options-container").appendChild(btn);
         });
     }
@@ -530,25 +490,29 @@
         document.getElementById("options-container").innerHTML = "";
     }
 
-    function selectAnswer(selected) {
-        let q = currentQuizData[currentIdx];
+    function selectAnswer(selectedOpt, selectedBtn) {
+        let q = activeBank[currentIdx];
         let btns = document.getElementById("options-container").children;
 
         userAnswers.push({
             q: q.q,
-            selected: selected,
-            correct: q.ans,
-            exp: q.exp,
-            opts: q.opt
+            selected: selectedOpt,
+            correwct: q.ans,
+            exp: q.exp
         });
 
-        if (selected === q.ans) {
+        if (selectedOpt === q.ans) {
             score += 10;
-            btns[selected].classList.add("correct");
+            selectedBtn.classList.add("correct");
             playSound('correct');
         } else {
-            btns[selected].classList.add("incorrect");
-            btns[q.ans].classList.add("correct");
+            selectedBtn.classList.add("incorrect");
+            // Cari tombol yang jawaban benar
+            for (let b of btns) {
+                if (b.innerText === q.ans) {
+                    b.classList.add("correct");
+                }
+            }
             playSound('wrong');
             triggerVibration();
         }
@@ -563,7 +527,7 @@
 
     function nextQuestion() {
         currentIdx++;
-        if (currentIdx < currentQuizData.length) {
+        if (currentIdx < activeBank.length) {
             loadQuestion();
         } else {
             showResults();
@@ -574,10 +538,10 @@
         document.getElementById("quiz-screen").style.display = "none";
         document.getElementById("result-screen").style.display = "block";
 
-        let maxScore = currentQuizData.length * 10;
+        let maxScore = activeBank.length * 10;
         document.getElementById("final-score").innerText = `${score} / ${maxScore}`;
 
-        let summary = score >= (maxScore * 0.8) ? "Luar Biasa! Pemahaman materi Anda sangat mantap!" : "Bagus! Pelajari kembali poin-poin pembahasan di bawah.";
+        let summary = score >= (maxScore * 0.8) ? "Sangat Baik! Pemahaman materi Anda sangat matang!" : "Bagus! Pelajari kembali poin-poin pembahasan di bawah untuk menyempurnakan nilai.";
         document.getElementById("result-summary").innerText = summary;
 
         let reviewBox = document.getElementById("review-container");
@@ -589,8 +553,8 @@
             div.className = `review-item ${isCorrect ? 'correct-item' : 'incorrect-item'}`;
             div.innerHTML = `
                 <div><strong>${i + 1}. ${ans.q}</strong></div>
-                <div>Jawaban Anda: ${ans.opts[ans.selected]} ${isCorrect ? '✅' : '❌'}</div>
-                ${!isCorrect ? `<div style="color: green;">Jawaban Benar: ${ans.opts[ans.correct]}</div>` : ''}
+                <div>Jawaban Anda: ${ans.selected} ${isCorrect ? '✅' : '❌'}</div>
+                ${!isCorrect ? `<div style="color: green;">Jawaban Benar: ${ans.correct}</div>` : ''}
                 <div style="font-size:0.85rem; color:#555; margin-top:4px;"><strong>Pembahasan:</strong> ${ans.exp}</div>
             `;
             reviewBox.appendChild(div);
